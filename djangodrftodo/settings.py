@@ -93,6 +93,7 @@ DATABASES = {
         'PASSWORD': config("DBPASSWORD"),
         'HOST': config("DBHOST"),
         'PORT': config("DBPORT"),
+        'DATABASE_URL': config("DATABASE_URL")
     }
 }
 
