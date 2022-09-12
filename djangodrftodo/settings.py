@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'djangodrftodo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "https://web-production-4c72.up.railway.app",
