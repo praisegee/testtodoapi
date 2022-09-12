@@ -102,14 +102,12 @@ if DEBUG:
 else:
     DATABASES = {
         'default': {
-            # 'ENGINE': 'django.db.backends.sqlite3',
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': config("DBNAME"),
             'USER': config("DBUSER"),
             'PASSWORD': config("DBPASSWORD"),
             'HOST': config("DBHOST"),
             'PORT': config("DBPORT"),
-            'DATABASE_URL': config("DATABASE_URL")
         }
     }
 
