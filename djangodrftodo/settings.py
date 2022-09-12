@@ -98,6 +98,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://web-production-4c72.up.railway.app",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-4c72.up.railway.app",
+]
+
 if DEBUG:
     DATABASES = {
         'default': {
