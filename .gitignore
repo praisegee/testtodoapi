@@ -13,4 +13,3 @@ db.sqlite3-journal
 venv
 media/
 htmlcov/
-staticfiles/
