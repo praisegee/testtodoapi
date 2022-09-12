@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
-import django_heroku
+# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["web-production-962a.up.railway.app"]
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
 
 # Application definition
 
@@ -42,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
+    'corsheaders',
 
     'authentication',
     'todo',
@@ -50,6 +56,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "authentication.User"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,19 +90,28 @@ WSGI_APPLICATION = 'djangodrftodo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+CORS_ALLOW_ALL_ORIGINS = True
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config("DBNAME"),
-        'USER': config("DBUSER"),
-        'PASSWORD': config("DBPASSWORD"),
-        'HOST': config("DBHOST"),
-        'PORT': config("DBPORT"),
-        'DATABASE_URL': config("DATABASE_URL")
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config("DBNAME"),
+            'USER': config("DBUSER"),
+            'PASSWORD': config("DBPASSWORD"),
+            'HOST': config("DBHOST"),
+            'PORT': config("DBPORT"),
+            'DATABASE_URL': config("DATABASE_URL")
+        }
+    }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -143,8 +159,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_DIRS = [BASE_DIR / "static_files"]
+# STATICFILES_DIRS = [BASE_DIR / "static_files"]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -152,3 +170,6 @@ STATICFILES_DIRS = [BASE_DIR / "static_files"]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django_heroku.settings(locals())
+
+
+
